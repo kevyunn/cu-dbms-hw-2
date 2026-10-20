@@ -1,0 +1,60 @@
+ Container mongodb-homework-m3-1 Running 
+ Container mongodb-homework-m1-1 Running 
+ Container mongodb-homework-m2-1 Running 
+ Container mongodb-homework-m1-1 Waiting 
+ Container mongodb-homework-m2-1 Waiting 
+ Container mongodb-homework-m3-1 Waiting 
+ Container mongodb-homework-m3-1 Healthy 
+ Container mongodb-homework-m2-1 Healthy 
+ Container mongodb-homework-m1-1 Healthy 
+ Container mongodb-homework-init-1 Starting 
+ Container mongodb-homework-init-1 Started 
+ Container mongodb-homework-init-1 Waiting 
+ Container mongodb-homework-init-1 Exited 
+ Container mongodb-homework-lab-run-2182de157fbc Creating 
+ Container mongodb-homework-lab-run-2182de157fbc Created 
+MongoDB — домашняя работа
+  docker compose up -d                      Поднять три узла и инициализировать replica set
+  docker compose run --rm lab reset          Восстановить 6 товаров и 35 заказов; сбросить старые результаты
+  docker compose run --rm lab reset index    Загрузить 10 000 заказов для опыта с индексом (без solution.js)
+  docker compose run --rm lab fixtures       Показать контрольные данные, параметры и эталоны без решения
+  docker compose run --rm lab data           Проверить валидатор, поиск, историю и отчёт
+  docker compose run --rm lab index          Сравнить один запрос до/после индекса на 10 000 заказов
+  docker compose run --rm lab purchase       Проверить покупку, откат, повтор и конфликт
+  docker compose run --rm lab failover       Сменить primary, прочитать и записать тем же клиентом
+  docker compose run --rm lab all            Последовательно выполнить четыре проверки
+  docker compose run --rm lab shell          Открыть mongosh для своих запросов
+  docker compose down                       Остановить стенд, сохранив данные
+  docker compose down --volumes              Удалить контейнеры и данные этого стенда
+
+Каждый сценарий сам готовит свои данные. Выполняйте команды последовательно.
+Все результаты и полные explain: results/results.json. Ошибка заменяет прежний PASS.
+При изменении solution.js старые результаты отмечаются устаревшими при следующем запуске.
+Базы стенда: hw2, hw2_failover. Пока TODO не заполнены, проверки завершаются ошибкой.
+URI внутри Docker-сети стенда:
+mongodb://m1:27017,m2:27017,m3:27017/hw2?replicaSet=hw2rs&retryWrites=true&serverSelectionTimeoutMS=10000&readPreference=primary
+PASS zero decimal price and int64 stock accepted
+PASS required _id rejected with code 121
+PASS required name rejected with code 121
+PASS required category rejected with code 121
+PASS required price rejected with code 121
+PASS required variants rejected with code 121
+PASS duplicate sizes rejected with code 121
+PASS fractional stock rejected with code 121
+PASS negative price rejected with code 121
+PASS missing size rejected with code 121
+PASS missing stock rejected with code 121
+PASS non-array variants rejected with code 121
+PASS non-object variant rejected with code 121
+PASS case-sensitive sizes allowed
+PASS search category is case-sensitive
+PASS search size is case-sensitive
+PASS main purchase exists
+PASS changed userId rejected with REQUEST_CONFLICT
+PASS changed sku rejected with REQUEST_CONFLICT
+PASS changed size rejected with REQUEST_CONFLICT
+PASS changed item order rejected with REQUEST_CONFLICT
+PASS conflicts preserve products and orders
+PASS probe upsert replay creates one document
+PASS missing probe returns null
+COMPLETE extra: 24
