@@ -1,5 +1,7 @@
 # ДЗ 2 — MongoDB
 
+[Видео с демонстрацией](https://drive.google.com/file/d/1076zz7wnjkVBkVsJS5gz-AqufUZQKWqC/view?usp=sharing)
+
 ## Запуск
 
 ```sh
